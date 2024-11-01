@@ -1,0 +1,84 @@
+- DB vs SGDB:
+    Bancos de dados, ou DBs, são agrupamentos de dados
+    armazenados em um determinado local, normalmente 
+    virtuais e acessados por meio de sistemas.
+    Os sistemas responsáveis por acessar (e gerenciar)
+    estes dados são chamados de sistemas gerenciadores
+    de banco de dados (ou, SGDB).
+    Os SGDBs mais conhecidos são:
+        • MySQL
+        • PostgreSQL
+        • SQLite
+        • MariaDB
+        • MongoDB
+        • Cassandra
+        • DynamoDB
+    Dentre os exemplos acima, é possível identificar e 
+    classificar os bancos como SQL e NoSQL. Sendo eles
+    do primeiro ao quarto, SQL, e o restante NoSQL.
+    A diferença entre esses tipos está na forma de 
+    organizar os dados. Os bancos de dados relacionais
+    (SQL) utilizam tabelas com linhas e colunas em sua 
+    estrutura. Os bancos não relacionais possuem cada 
+    um uma forma diferente de armazenar os dados, 
+    podendo utilizar objetos de chave-valor, documento,
+    grafos, entre outros. Caracterizando uma grande 
+    flexibilidade para trabalhar com os dados.
+
+- Chave primária:
+    Colunas ou conjuntos de colunas cujo valor é 
+    definido de forma a identificar de forma única 
+    um registro na tabela.
+    Identificando unicamente cada registro, é possível
+    relacionar diferentes tabelas. Estas relações são 
+    feitas através de um campo chamado chave estrangeira
+    (ou foreign key), cujo valor é uma referência direta
+    a uma chave primária de outra tabela.
+
+- Relações:
+    A modelagem do banco de dados relacional se baseia
+    em diferentes tipos de relacionamentos, sendo eles:
+        • 1 para 1
+        • 1 para N
+        • N para N
+    Isto significa que uma chave primária só pode ser 
+    referenciada por uma única chave estrangeira ou 
+    uma chave primária pode ser referenciada por várias
+    chaves estrangeiras, nos dois primeiros casos.
+    No relacionamento "M:N", ocorre a criação de uma 
+    nova tabela com colunas destinadas apenas para 
+    armazenar chaves estrangeiras que referenciam uma 
+    mesma chave primária.
+
+- Conexão PL x DB:
+    Bancos de dados podem ser acessados diretamente a 
+    partir de um sistema dedicado, como visto anteriormente.
+    Porém, no contexto de desenvolvimento de aplicações,
+    a consulta com SGDB pode se tornar cansativa e contra
+    intuitiva. Para isso, linguagens de programação (PL)
+    oferecem suporte para conexão com os bancos, permitindo
+    realizar consultas e "transações" diretamente no código
+    do programa.
+    O python, por exemplo, possui suporte nativo para 
+    conexão com o SQLite, sendo necessário apenas a 
+    importação do seu conector "sqlite3". Porém, é possível
+    fazer a instalação de conectores de diversos bancos 
+    através do pip.
+    Principais conectores python:
+        • mysql-connector-python
+        • psycopg2 (postgre)
+        • sqlite3
+        • mariadb
+        • pymongo (mongodb)
+        • cassandra-driver
+        • boto3 (dynamodb)
+    Conexões são realizadas a partir da criação de objetos
+    de conexão, configurados com tipo do banco, nome, host, 
+    senha, entre outras informações. Criada a conexão, um 
+    segundo objeto é necessário para realizar a comunicação
+    entre o programa e o SGDB, o cursor. 
+    Feita a comunicação de uma possível transação do banco,
+    é necessário fazer a confirmação. Esta é feita através 
+    do método ".commit" do objeto de conexão.
+    Da mesma forma, é possível cancelar uma transação do 
+    banco utilizando ".rollback" caso ocorra algum erro.

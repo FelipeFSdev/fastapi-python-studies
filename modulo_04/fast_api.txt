@@ -1,0 +1,145 @@
+- Framework:
+    Frameworks são conjuntos de ferramentas pré-definidas
+    utilizadas para criação (ou auxílio) de aplicações no
+    contexto de desenvolvimento web.
+    Frameworks possuem sintaxe própria, funções e métodos
+    baseados na linguagem para a qual foi desenvolvido. 
+    Apesar de facilitar a construção de um projeto, reduz
+    a flexibilidade de desenvolvimento.
+    Falando sobre Python, o fastAPI é uma das opções mais
+    populares, baseada em padrões OpenAPI(swagger) e JSON
+    Schema. Utiliza tipagem estática para validar dados e 
+    gerar documentação automática.
+    FastAPI possui desempenho semelhante ao NodeJS e maior
+    que o Flask (outro framework web para Python).
+    Possui suporte nativo para operações assíncronas.
+
+- Criação de aplicações:
+    O desenvolvimento inicia-se com a instanciação do fastAPI
+    em uma variável app. Esta, irá servir para criação de 
+    endpoints(rotas) e sua sintaxe será semelhante ao uso 
+    de "decorators", seguida de uma função para realizar
+    as requisições http.
+    Ex:
+        from fastapi import FastAPI
+
+        app = FastAPI()
+
+        @app.get("/")
+        def funcao_get():
+            return {"message": "Hello World"}
+    Observe que o retorno da função http é um dicionário.
+    O dicionário será convertido automaticamente para um 
+    objeto JSON.
+    Para observar o resultado, uma segunda biblioteca deve
+    ser instalada para possibilitar a criação de servidores
+    locais, a lib "uvicorn".
+    O uvicorn possui comando próprio no terminal e precisa 
+    que seja específicado o caminho do arquivo principal.
+    Ex:
+        uvicorn main:app --reload
+    No caso acima, uvicorn é o comando de inicialização, 
+    main é o arquivo que deve ser executado, e app a 
+    instância do fastapi. O atributo --reload, indica a 
+    necessidade de recarregar a página sempre que um 
+    arquivo for modificado.
+
+- Arquitetura de projeto:
+    Projetos de software, ou sistemas, possuem diferentes
+    padrões de arquitetura que podem ser seguidos para a 
+    melhor manutenabilidade de código.
+    O fastAPI possui um bom suporte para uso da arquitetura
+    MVC (Model-View-Controller).
+    No MVC, o código é dividido em três camadas:
+        • Model - Regras de negócio e processamento;
+        • View - Interface gráfica;
+        • Controller - Intermediário entre Model e View. 
+        É responsável por processar as solicitações e 
+        manipular dados usando o modelo para exibição.
+
+- Path params:
+    Dados passados através das URLs e que serão usados
+    pelo código para realizar determinadas operações.
+    Uma particularidade dos path params é que as rotas
+    possuem um caminho/endpoint dedicado para eles, 
+    diferente dos "query params", que são comumente 
+    usados para paginação ou consultas de um dado em
+    específico.
+    Ao passar parâmetros para as funções de rota, o 
+    fastAPI permite a especificação de tipos (str, int
+    float, etc), garantindo maior segurança pra rota.
+    
+- Query params:
+    Na tradução literal, são parâmetros de consulta, 
+    isto é, não carregam dados para operações, apenas
+    auxiliam o retorno de solicitações ao servidor.
+    No contexto de fastAPI, rotas que aceitam query 
+    params possuem dois argumentos padrões:
+        • skip> Quantos elementos devem ser "pulados"
+        • limit> Quantidade máxima de elementos
+    Esses argumentos devem ser tipados como "int" e 
+    seus valores são passados na url como:
+        • url?limit={valor}&skip={valor}
+    Também podem receber valores padrões ao declarar
+    a função de rota.
+
+- Requisições com body:
+    O corpo, ou body, da requisição é o lugar na API
+    em que o servidor irá recuperar as informações 
+    recebidas pelo usuário através de uma requisição
+    HTTP POST, PUT ou PATCH.
+    Utilizando o pydantic, é possível criar "classes 
+    modelo" de como os dados serão passados e tratados
+    pela API.
+    Ex:
+        from fastapi import FastAPI
+        from pydantic import BaseModel
+
+        class ItemModel(BaseModel):
+            name:str
+            description: str | None = None
+            price: float
+            tax: float | None = None
+        @app.post("/items/")
+        def create_item(item: ItemModel):
+            return item
+
+- Status code:
+    Números inteiros que representam o estado de uma 
+    requisição.
+    Estes são recuperados através do atributo "status"
+    do fastAPI, definido no decorador após o caminho
+    do endpoint.
+    Ex:
+        @app.get("/", status_code=status.HTTP_200_OK)
+        ou
+        @app.get("/", status_code=200)
+    Status code, ou códigos de status, possuem famílias
+    que facilitam sua identificação. São elas:
+        200 - 299> Códigos de requisição bem-sucedida;
+        400 - 499> Erros de usuário;
+        500 - 599> Erros de servidor.
+
+- Cookies e Headers:
+    Cookies podem ser definidos como memórias temporárias
+    de páginas web. Essas são determinadas em código pelo 
+    método set_cookie() da classe Response do fastAPI, ou 
+    lidos utilizando Annotated
+    Ex:
+        from fastapi import FastAPI, Response, Cookie
+        from typing import Annotated
+
+        @app.get("/")
+        def exemp_cookie(
+            res: Response,
+            ads_id = Annotated[str | None, Cookie() = None]):
+            res.set_cookie(key="user", value="user@email.com")
+    O Annotated funciona como uma forma de associar dados
+    adicionais a um determinado tipo. No contexto do fastapi,
+    define como o valor deve ser tratado. No exemplo acima,
+    a variável ads_id receberá um valor do tipo str ou None
+    e deverá ser tratado como um cookie. Neste caso, o cookie
+    estará sendo lido e armazenado na variável ads_id.
+    Na linha imediatamente abaixo, é mostrado um exemplo de
+    como definir valores para um cookie, através de chave e 
+    valor.

@@ -1,0 +1,51 @@
+- Conexao:
+    O fastapi utiliza uma biblioteca própria chamada
+    SQLModel para realizar mapeamento e conexões com 
+    bancos de dados. O SQLModel, por sua vez, é baseado
+    em pydantic e SQLAlchemy, então algumas de suas 
+    funções e formas de funcionamento são bem parecidas.
+    A conexão acontece a partir da criação de uma 
+    "engine", que por sua vez é criada através da 
+    função create_engine do SQLModel. A função recebe
+    como parâmetro/argumento a url do banco de dados.
+    Ex:
+        from sqlmodel import SQLModel, create_engine
+
+        connect_args = {"check_same_thread": False}
+        engine = create_engine(
+                    "sqlite:///nome_db.db",
+                    connect_args = connect_args)
+    No exemplo acima, é passando também o parâmetro
+    "connect_args", que garante o uso de diferentes 
+    threads para processamento de requisições.
+    A url dos bancos podem variar a depender do banco
+    escolhido, o importante é que a url possua:
+        usuario:senha@host:porta/banco_de_dados
+    Utilizando a estrutura acima em uma conexão local
+    postgres:
+        postgres://postgres:356428@localhost:5432/nome_db
+
+- Modelos e criação de tabelas:
+    Feita a conexão com o banco, é necessário "indicar"
+    ao python como os dados deverão ser tratados pelo 
+    banco de dados. Este trabalho é feito com a criação
+    de classes utilizando como parâmetro o objeto SQLModel.
+    O SQLModel quando utilizado realiza a conversão dos
+    tipos de dados nativos do python (str, bool, float)
+    para os tipos reconhecidos pelo banco. No caso da 
+    criação de tabelas, é provável que seja necessário 
+    passar propriedades de colunas. Para isso, utiliza-se
+    a função Field() do sqlmodel. Através dessa função
+    é possível indicar colunas de chave primária, valores
+    padrões, campo único, nulo, etc.
+    Ex:
+        class Post(SQLModel, table=True):
+        id: int | None = Field(primary_key=True, default=None)
+        title: str = Field(unique=True, nullable=False, max_length=150)
+        content: str = Field(nullable=False)
+        published_at: datetime | None = Field(nullable=True, default=None)
+        is_publish: bool = False
+    O parâmetro table é passado para indicar que o modelo
+    refere-se a criação de uma tabela.
+    O atributo default indica um valor padrão para a coluna
+    caso nenhum valor seja passado ao criar o objeto.

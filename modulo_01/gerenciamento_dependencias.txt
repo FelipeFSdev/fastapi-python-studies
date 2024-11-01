@@ -1,0 +1,61 @@
+- Pip:
+    Gerenciador de pacotes python.
+    Utilizado para instalação, remoção e atualização
+    de módulos/bibliotecas/pacotes externos.
+    Seus principais comandos são: 
+        • pip install ${nome-do-pacote}
+        • pip uninstall ${nome-do-pacote}
+        • pip list
+        • pip install --upgrade ${nome-do-pacote}
+
+- Ambiente virtual:
+    Comumente abreviado como "venv", trata-se de um 
+    local virtual para gerenciamento de dependências.
+    O termo "venv" também é a palavra reservada para 
+    criação do ambiente virtual.
+    Uso:
+        python -m venv ${nome-do-env}
+        source ./${nome-do-env}/Scripts/activate
+        deactivate (para desativar o venv)
+    Seguindo as boas práticas da programação em Python,
+    o ambiente virtual é comumente nomeado como "myenv"
+    ou ".env".
+
+- Pipenv:
+    Ferramenta de gerenciamento de dependências como o 
+    pip. A grande diferença, porém, está na criação de 
+    ambientes virtuais de forma automática e adiciona/
+    remove pacotes automaticamente do arquivo "pipfile"
+    conforme novos pacotes são instalados ou removidos.
+    Seus principais comandos são:
+        • pip install pipenv
+        • pipenv (para listar comandos)
+        • pipenv install ${nome-da-lib}
+        • pipenv uninstall ${nome-da-lib}
+        • pipenv lock
+        • pipenv graph
+    O pipenv deve ser instalado globalmente, fora de um
+    ambiente virtual.
+
+- Poetry:
+    Assim como o pipenv e pip, auxilia o gerenciamento 
+    de pacotes através de um grande leque de comandos.
+    O poetry também oferece a possibilidade de empacotar
+    e publicar bibliotecas/projetos próprios no PyPI.
+    Seus principais comandos são:
+        • pip install poetry
+        • poetry new my-project
+        • cd my-project
+        • poetry add ${nome-da-lib}
+        • poetry remove ${nome-da-lib}
+    Também é possível adicionar o poetry em projetos já
+    existentes seguindo os passos:
+        • pip install poetry
+        • poetry (para listar comandos)
+        • poetry init
+        • poetry install 
+    Nesse caso, uma sequência de "perguntas" serão feitas
+    no terminal para configuração de um arquivo ".toml"
+    com as dependências desejadas. "Poetry install" irá 
+    instalar todas as dependências descritas no arquivo e 
+    irá criar o ambiente virtual próprio do poetry.
